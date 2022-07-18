@@ -2,6 +2,8 @@ default:
   tags:
     - softwaredevelopment02
 
+image: python:latest
+
 build-job:
   stage: build
   script:
