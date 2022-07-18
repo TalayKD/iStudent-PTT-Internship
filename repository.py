@@ -2,10 +2,10 @@ import psycopg2
 
 # Function to connect Flask app to the postgres database
 def get_db_connection():
-    conn = psycopg2.connect(host='localhost',
-                            database='flask_db',
-                            user="sammy",
-                            password="pttinternship2022",
+    conn = psycopg2.connect(host='poc-database-pttep.postgres.database.azure.com',
+                            database='postgres',
+                            user="devops@poc-database-pttep",
+                            password="13qeadzc!#qeadzc",
                             port=5432  
     )
     return conn

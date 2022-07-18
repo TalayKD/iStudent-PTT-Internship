@@ -10,7 +10,8 @@ build-job:
 test-job1:
   stage: test
   script:
-    - echo "This job tests something"
+    - pip3 install -r requirements.txt
+    - python -m unittest istudenttest.py
 
 test-job2:
   stage: test
