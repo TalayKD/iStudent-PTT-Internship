@@ -2,16 +2,14 @@ default:
   tags:
     - softwaredevelopment02
 
+stages:
+  - test
+
 unit-testing:
   stage: test
   image: python:latest
   script:
     - python --version  # For debugging
-    - pwd
-    - ls
-    - pip install virtualenv
-    - virtualenv venv
-    - source venv/bin/activate
     - pip3 install -r requirements.txt
-    - python -m unittest istudenttest.py
+    - python3 -m unittest istudenttest.py
 
