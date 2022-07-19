@@ -11,8 +11,10 @@ unit-testing:
   stage: test
   image: python:latest
   script:
-    - python -m venv venv
-    - . venv/bin/activate
+    - python --version  # For debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
     - pip3 install -r requirements.txt
     - python -m unittest istudenttest.py
 
