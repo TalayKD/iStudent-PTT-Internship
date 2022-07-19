@@ -4,6 +4,7 @@ default:
 
 stages:
   - test
+  - build
 
 unit-testing:
   stage: test
@@ -13,3 +14,8 @@ unit-testing:
     - pip3 install -r requirements.txt
     - python3 -m unittest istudenttest.py
 
+build-docker:
+  stage: build
+  script:
+    - docker build -t istudent-gitlab .
+    - docker images # For debugging
