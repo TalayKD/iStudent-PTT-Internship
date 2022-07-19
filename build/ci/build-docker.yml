@@ -1,0 +1,5 @@
+build-docker:
+  stage: build
+  script:
+    - docker build -t istudent-gitlab .
+    - docker images # For debugging

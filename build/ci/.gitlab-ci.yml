@@ -2,20 +2,45 @@ default:
   tags:
     - softwaredevelopment02
 
+image: $DOCKER_IMAGE
+services:
+  - name: $DOCKER_IMAGE
+    command:
+      [
+        "--insecure-registry=10.200.137.252:8082",
+        "--insecure-registry=10.200.137.252:8083",
+      ]
+
 stages:
-  - test
+  - unittest
   - build
 
-unit-testing:
-  stage: test
-  image: python:latest
-  script:
-    - python --version  # For debugging
-    - pip3 install -r requirements.txt
-    - python3 -m unittest istudenttest.py
+variables:  
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_IMAGE: "docker:19.03.3-dind"
 
-build-docker:
-  stage: build
-  script:
-    - docker build -t istudent-gitlab .
-    - docker images # For debugging
+  PROJECT_NAME: "python-prototype"
+  ACR_LOGIN_SERVER: "replatformpoc.azurecr.io"
+  
+  PROJECT_IMAGE_NAME: "$ACR_LOGIN_SERVER/$PROJECT_NAME"
+  PROJECT_IMAGE_VERSION: "$CI_PIPELINE_IID"
+
+
+# Rules for only develop and except master/main
+.only-develop:
+  only:
+    - develop
+  except:
+    - main
+    - master
+# Rules for only tag
+.only-tags:
+  only:
+    - tags    
+
+include:
+  - /build/ci/unittest.yml
+  - /build/ci/build-docker.yml
+
