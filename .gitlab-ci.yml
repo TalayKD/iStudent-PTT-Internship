@@ -11,10 +11,10 @@ unit-testing:
   stage: test
   image: python:latest
   script:
-    - python3 -m venv venv
+    - python -m venv venv
     - . venv/bin/activate
     - pip3 install -r requirements.txt
-    - python3 -m unittest istudenttest.py
+    - python -m unittest istudenttest.py
 
 test-job2:
   stage: test
