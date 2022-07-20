@@ -1,5 +1,10 @@
 build-docker:
+  variables:
+    TEST: "HI"
+  
   stage: build
   script:
+    - echo $TEST
     - docker build -t istudent-gitlab . -f build/package/Dockerfile
     - docker images # For debugging
+    - docker login replatformpoc.azurecr.io -u RePlatformPOC -p /w0KyIYW=KJEzeWGHwcl21zsxWofPUYG
