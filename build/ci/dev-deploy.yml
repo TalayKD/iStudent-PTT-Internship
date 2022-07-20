@@ -1,9 +1,18 @@
 dev:deploy:
   stage: dev
+  variables:
+    IMAGE: $PROJECT_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    URL: $ACR_LOGIN_SERVER
   environment:
     name: dev
   image: $AZ_CONTAINER_IMAGE
   script:
     - ASP_LOGIN_PASSWORD=$(echo $ASP_LOGIN_PASSWORD | base64 -d)
     - az login --service-principal -u $ASP_LOGIN_USER -p $ASP_LOGIN_PASSWORD --tenant $DOMAIN
-    - az webapp config container set --name $APP_SERVICE_NAME --resource-group $RESOURCE_GROUP --docker-custom-image-name $PROJECT_IMAGE_NAME:$CI_COMMIT_SHORT_SHA --docker-registry-server-url https://$ACR_LOGIN_SERVER
+    - az webapp config container set 
+      --name $AZ_APP_SERVICE_NAME 
+      --resource-group $AZ_APP_SERVICE_RG 
+      --docker-custom-image-name $IMAGE 
+      --docker-registry-server-url https://$URL
+      --docker-registry-server-user $ACR_USERNAME
+      --docker-registry-server-password $ACR_PASSWORD
