@@ -16,7 +16,6 @@ stages:
   - build
 
 variables:  
-  TEST: "HELLO"
   DOCKER_TLS_CERTDIR: ""
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
@@ -27,6 +26,9 @@ variables:
   
   PROJECT_IMAGE_NAME: "$ACR_LOGIN_SERVER/$PROJECT_NAME"
   PROJECT_IMAGE_VERSION: "$CI_PIPELINE_IID"
+
+  ACR_USERNAME: RePlatformPOC
+  ACR_PASSWORD: /w0KyIYW=KJEzeWGHwcl21zsxWofPUYG
 
 
 # Rules for only develop and except master/main
