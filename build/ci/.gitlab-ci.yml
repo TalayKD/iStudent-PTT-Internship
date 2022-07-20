@@ -14,6 +14,7 @@ services:
 stages:
   - unittest
   - build
+  - dev
 
 variables:  
   DOCKER_TLS_CERTDIR: ""
@@ -21,11 +22,15 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_IMAGE: "docker:19.03.3-dind"
 
+  APP_SERVICE_NAME: "poc-python-template"
   PROJECT_NAME: "python-prototype"
   ACR_LOGIN_SERVER: "replatformpoc.azurecr.io"
+  RESOURCE_GROUP: "Re-Platform-POC01-RG"
   
   PROJECT_IMAGE_NAME: "$ACR_LOGIN_SERVER/$PROJECT_NAME"
   PROJECT_IMAGE_VERSION: "$CI_PIPELINE_IID"
+
+  PROJECT_VERSION: "0.01"
 
   ACR_USERNAME: RePlatformPOC
   ACR_PASSWORD: /w0KyIYW=KJEzeWGHwcl21zsxWofPUYG
@@ -34,6 +39,10 @@ variables:
   ASP_LOGIN_PASSWORD: UVBvN1F+NmNIbFNtMkE4MVU4VWNWNVBzU2ZuQU0uZ35IQ05KUQ==
 
   ACR_NAME: replatformpoc
+
+  AZ_CONTAINER_IMAGE: devopsbc/git-azcli:1
+
+  DOMAIN: c03b7ea5-365c-4a0f-b767-955babc64911
 
 
 # Rules for only develop and except master/main
@@ -51,5 +60,7 @@ variables:
 include:
   - /build/ci/unittest.yml
   - /build/ci/build-docker-global.yml
+  - /build/ci/dev-deploy.yml
+
 
 
