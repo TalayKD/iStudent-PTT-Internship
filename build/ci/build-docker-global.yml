@@ -1,0 +1,54 @@
+build:docker:
+  stage: build
+  environment:
+    name: dev
+  image: $DOCKER_IMAGE
+  script:
+    - apk add --no-cache tzdata
+    - TZ=Asia/Bangkok date +'%d/%m/%Y %H:%M:%S'
+    - CUR_TIME=$(TZ=Asia/Bangkok date +'%Y-%m-%d %T')
+    - echo "Build Docker image $PROJECT_IMAGE_VERSION at $CUR_TIME"
+    - ASP_LOGIN_PASSWORD=$(echo $ASP_LOGIN_PASSWORD | base64 -d)
+    - docker login $ACR_LOGIN_SERVER -u $ASP_LOGIN_USER -p $ASP_LOGIN_PASSWORD
+    - |
+      if [ -z "$CONTAINER_PLATFORM" ]; 
+      then 
+        CONTAINER_PLATFORM="linux/amd64"
+        BUILDX_URL=https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
+      else 
+        CONTAINER_PLATFORM=$CONTAINER_PLATFORM
+        if [[ "$CONTAINER_PLATFORM" == *"windows"* ]];
+        then
+          BUILDX_URL=https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.windows-amd64.exe
+        else
+          BUILDX_URL=https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
+        fi;
+      fi;
+    - mkdir -p ~/.docker/cli-plugins
+    - wget -O ~/.docker/cli-plugins/docker-buildx $BUILDX_URL
+    - chmod 755 ~/.docker/cli-plugins/docker-buildx    
+    - DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build 
+      --platform $CONTAINER_PLATFORM 
+      -o type=docker 
+      --no-cache
+      --build-arg BUILD_TIME="$CUR_TIME"
+      --build-arg GIT_REVISION=$CI_COMMIT_SHORT_SHA
+      --build-arg APP_VERSION=$PROJECT_VERSION
+      --build-arg env=$CI_ENVIRONMENT_NAME
+      --build-arg git_commit=$CI_COMMIT_SHORT_SHA
+      --build-arg version=$PROJECT_VERSION
+      -t "$PROJECT_IMAGE_NAME:$PROJECT_IMAGE_VERSION" 
+      -f build/package/Dockerfile .
+    - docker images
+    - docker push $PROJECT_IMAGE_NAME:$PROJECT_IMAGE_VERSION
+    - docker tag $PROJECT_IMAGE_NAME:$PROJECT_IMAGE_VERSION $PROJECT_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    - docker push $PROJECT_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    - echo "DEPLOY_IMAGES=$PROJECT_IMAGE_NAME:$PROJECT_IMAGE_VERSION" >> $(pwd)/.env
+    - echo "ACR_LOCATION=$ACR_NAME" >> $(pwd)/.env
+  # needs: ["dev:sast"]   #not used for wave this stage in dev environment
+  allow_failure: false
+  extends:
+    - .only-develop
+  artifacts:
+    reports:
+      dotenv: $(pwd)/.env

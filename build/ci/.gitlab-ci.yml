@@ -30,6 +30,11 @@ variables:
   ACR_USERNAME: RePlatformPOC
   ACR_PASSWORD: /w0KyIYW=KJEzeWGHwcl21zsxWofPUYG
 
+  ASP_LOGIN_USER: a51ee474-acca-4f39-bf90-d5f2de5b2f40
+  ASP_LOGIN_PASSWORD: UVBvN1F+NmNIbFNtMkE4MVU4VWNWNVBzU2ZuQU0uZ35IQ05KUQ==
+
+  ACR_NAME: replatformpoc
+
 
 # Rules for only develop and except master/main
 .only-develop:
@@ -45,6 +50,6 @@ variables:
 
 include:
   - /build/ci/unittest.yml
-  - /build/ci/build-docker.yml
+  - /build/ci/build-docker-global.yml
 
 
