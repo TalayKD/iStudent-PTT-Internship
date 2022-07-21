@@ -15,6 +15,7 @@ stages:
   - unittest
   - build
   - dev
+  - dev-test-smoke
 
 variables:  
   DOCKER_TLS_CERTDIR: ""
@@ -44,6 +45,9 @@ variables:
 
   AZ_CONTAINER_IMAGE: devopsbc/git-azcli:1
 
+  PROTOCOL: "https"
+  HOST_NAME: "poc-python-template-dev.azurewebsites.net"
+
   
 
 # Rules for only develop and except master/main
@@ -63,6 +67,8 @@ include:
   - /build/ci/build-docker-global.yml
   - /build/ci/dev-deploy-global.yml
   - /build/ci/extends/.deploy-global.yml
+  - /build/ci/dev-robot-global.yml
+  - /build/ci/extends/.test-smoke.yml
 
 
 

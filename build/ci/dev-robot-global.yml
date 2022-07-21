@@ -1,0 +1,14 @@
+# security & smoke test stage
+dev:test-smoke:
+  stage: dev-test-smoke
+  artifacts:
+    name: dev-smoke-result
+    paths:
+      - ${PWD}/tests/robots/reports
+    when: always
+  environment:
+    name: dev
+  extends:
+    - .test-smoke   
+    - .only-develop   
+
