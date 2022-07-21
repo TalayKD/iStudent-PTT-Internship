@@ -22,7 +22,7 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_IMAGE: "docker:19.03.3-dind"
 
-  PROJECT_NAME: "python-prototype"
+  PROJECT_NAME: "poc-python-template"
   ACR_LOGIN_SERVER: "replatformpoc.azurecr.io"
 
   AZ_APP_SERVICE_NAME: "poc-python-template"

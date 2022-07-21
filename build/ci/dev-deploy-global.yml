@@ -8,7 +8,7 @@ dev:pre-deploy:
     - .az_appservice_job_pre_deploy
     - .only-develop
   variables:
-    AZ_APP_SERVICE_NAME     : "$PROJECT_NAME"
+    AZ_APP_SERVICE_NAME     : "$PROJECT_NAME-$CI_ENVIRONMENT_NAME"
     AZ_APP_SERVICE_RG       : "$AZ_RESOURCE_GROUP_DEV"
     URL_ACR_LOGIN_SERVER    : "$ACR_LOGIN_SERVER"
     ASP_DOMAIN              : "$ASP_LOGIN_DOMAIN"
