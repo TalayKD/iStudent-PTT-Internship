@@ -1,0 +1,138 @@
+# Pre Deploy template
+.az_appservice_job_pre_deploy:
+  image: $AZ_CONTAINER_IMAGE
+  script:
+    - apk add --no-cache tzdata
+    - TZ=Asia/Bangkok date +'%d/%m/%Y %H:%M:%S'
+    - ASP_PASSWORD_ENCODE=$ASP_PASSWORD
+    - ASP_PASSWORD=$(echo $ASP_PASSWORD | base64 -d)
+    - az login --service-principal -u $ASP_USER -p $ASP_PASSWORD --tenant $ASP_DOMAIN
+    - echo "$AZ_APP_SERVICE_NAME-$AZ_APP_SERVICE_RG-$ASP_PASSWORD"
+    - STR=$(az webapp show -n $AZ_APP_SERVICE_NAME -g $AZ_APP_SERVICE_RG --query kind)
+    - |
+      if [[ "$STR" == *"linux"* ]]; then
+        echo "linux"
+        IMAGES_ROLLBACK=$(az webapp show -n $AZ_APP_SERVICE_NAME -g $AZ_APP_SERVICE_RG --query siteConfig.linuxFxVersion -o tsv | sed 's/.*|//')
+      else 
+        echo "window"
+        IMAGES_ROLLBACK=$(az webapp show -n $AZ_APP_SERVICE_NAME -g $AZ_APP_SERVICE_RG --query siteConfig.windowsFxVersion -o tsv | sed 's/.*|//')
+      fi 
+    - echo "IMAGES_ROLLBACK=$IMAGES_ROLLBACK"               >> $(pwd)/.env
+    - echo "URL_ACR_LOGIN_SERVER=$URL_ACR_LOGIN_SERVER"     >> $(pwd)/.env
+    - echo "AZ_APP_SERVICE_NAME=$AZ_APP_SERVICE_NAME"       >> $(pwd)/.env    
+    - echo "AZ_APP_SERVICE_RG=$AZ_APP_SERVICE_RG"           >> $(pwd)/.env    
+    - echo "ASP_DOMAIN=$ASP_DOMAIN"                         >> $(pwd)/.env 
+    - echo "ASP_USER=$ASP_USER"                             >> $(pwd)/.env 
+    - echo "ASP_PASSWORD=$ASP_PASSWORD_ENCODE"              >> $(pwd)/.env 
+  
+  allow_failure: false
+  artifacts:
+    reports:
+      dotenv: $(pwd)/.env
+
+# Deploy template
+.az_appservice_job_deploy:
+  image: $AZ_CONTAINER_IMAGE
+  extends:
+    - .az_web_config
+  before_script:
+    - apk add --no-cache tzdata
+    - TZ=Asia/Bangkok date +'%d/%m/%Y %H:%M:%S'
+    - ASP_PASSWORD_ENCODE=$ASP_PASSWORD
+    - ASP_PASSWORD=$(echo $ASP_PASSWORD | base64 -d)
+    - az login --service-principal -u $ASP_USER -p $ASP_PASSWORD --tenant $ASP_DOMAIN
+    - echo "$AZ_APP_SERVICE_NAME Deploy with Container $DEPLOY_IMAGES"
+    - echo "IMAGE=$DEPLOY_IMAGES"                           >> $(pwd)/.env
+    - echo "URL=$URL_ACR_LOGIN_SERVER"                      >> $(pwd)/.env
+    - echo "USERNAME=$ASP_USER"                             >> $(pwd)/.env
+    - echo "PASSWORD=$ASP_PASSWORD_ENCODE"                  >> $(pwd)/.env
+    - echo "ACR_LOCATION=$ACR_LOCATION"                     >> $(pwd)/.env      
+    - echo "AZ_APP_SERVICE_NAME=$AZ_APP_SERVICE_NAME"       >> $(pwd)/.env      
+ 
+
+# Rollback template
+.az_appservice_job_rollback:
+  image: $AZ_CONTAINER_IMAGE
+  extends:
+    - .az_web_config
+  before_script:
+    - apk add --no-cache tzdata
+    - TZ=Asia/Bangkok date +'%d/%m/%Y %H:%M:%S'
+    - ASP_PASSWORD_ENCODE=$ASP_PASSWORD
+    - ASP_PASSWORD=$(echo $ASP_PASSWORD | base64 -d)
+    - az login --service-principal -u $ASP_USER -p $ASP_PASSWORD --tenant $ASP_DOMAIN 
+    - echo "Rollback on $AZ_APP_SERVICE_NAME environment $DEPLOY_IMAGES to previous version $IMAGES_ROLLBACK" 
+    - IMAGE=$IMAGES_ROLLBACK
+    - |
+      if [[ "$IMAGES_ROLLBACK" == *"mcr.microsoft.com"* ]]; then
+        URL=https://mcr.microsoft.com 
+        USERNAME=""
+        PASSWORD=""
+      else 
+        URL=$URL_ACR_LOGIN_SERVER
+        USERNAME=$ASP_USER
+        PASSWORD=$ASP_PASSWORD_ENCODE
+      fi
+    - echo "IMAGE=$IMAGE"                                  >> $(pwd)/.env
+    - echo "URL=$URL"                                      >> $(pwd)/.env
+    - echo "USERNAME=$USERNAME"                            >> $(pwd)/.env
+    - echo "PASSWORD=$PASSWORD"                            >> $(pwd)/.env
+    - echo "ACR_LOCATION=$ACR_LOCATION"                    >> $(pwd)/.env      
+    - echo "AZ_APP_SERVICE_NAME=$AZ_APP_SERVICE_NAME"      >> $(pwd)/.env      
+
+.az_web_config:
+  script:
+    - source .env
+    - echo $IMAGE
+    - TAG=$(echo $IMAGE | sed 's/.*://')
+    - echo $TAG
+    - echo $PROJECT_NAME
+    - echo "$AZ_APP_SERVICE_NAME - $AZ_APP_SERVICE_RG - $URL"
+    - echo $ACR_LOCATION
+    - |
+      if [[ "$IMAGE" == *"mcr.microsoft.com"* ]]; then
+        echo "Microsoft"
+      else 
+        echo "ACR"
+        az acr repository show-tags --name $ACR_LOCATION --repository $PROJECT_NAME --output tsv|grep $TAG || exit_code=$?
+        if [ "$?" -eq 0  -a -z "$exit_code" ]; then 
+          echo "Image Tags Found"
+        else 
+          echo "Image Tags Not Found"
+          exit 1
+          fi;
+      fi
+
+    # IF window container stop&start appservice for new configuration
+    - STR=$(az webapp show -n $AZ_APP_SERVICE_NAME -g $AZ_APP_SERVICE_RG --query kind)
+    - |
+      if [[ "$STR" == *"linux"* ]]; then
+        echo "linux"
+      else 
+        echo "window"
+        az webapp config set --resource-group $AZ_APP_SERVICE_RG --name $AZ_APP_SERVICE_NAME --generic-configurations "{\"acrUseManagedIdentityCreds\":true}"
+        az webapp stop --resource-group $AZ_APP_SERVICE_RG --name $AZ_APP_SERVICE_NAME
+        az webapp start --resource-group $AZ_APP_SERVICE_RG --name $AZ_APP_SERVICE_NAME
+      fi
+    - PASSWORD=$(echo ${PASSWORD} | base64 -d)
+
+    # Add Variable in Application settings
+    - |
+      FILE=build/env/value.json
+      if test -f "$FILE"; then
+        echo $FILE
+        sed -i 's@#env#@'$CI_ENVIRONMENT_NAME'@g' $FILE
+        cat $FILE 
+        az webapp config appsettings set --resource-group $AZ_APP_SERVICE_RG --name $AZ_APP_SERVICE_NAME --settings "@build/env/value.json"
+      else 
+          echo "$FILE does not exist."
+      fi
+
+    # Deploy , Config images to appserivce
+    - az webapp config container set
+      --name                              $AZ_APP_SERVICE_NAME
+      --resource-group                    $AZ_APP_SERVICE_RG 
+      --docker-custom-image-name          $IMAGE
+      --docker-registry-server-url        "https://$URL"
+      --docker-registry-server-user       "${USERNAME}"
+      --docker-registry-server-password   "$PASSWORD"

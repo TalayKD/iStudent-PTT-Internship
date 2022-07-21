@@ -16,7 +16,6 @@ dev:pre-deploy:
     ASP_PASSWORD            : "$ASP_LOGIN_PASSWORD"
 
 
-
 dev:deploy:
   stage: dev
   extends:
@@ -24,6 +23,27 @@ dev:deploy:
     - .only-develop
   environment:
     name: dev
-    on_stop: dev:destroy
   needs: ["build:docker", "dev:pre-deploy"]
+
+dev:rollback:
+  stage: dev
+  extends:
+    - .az_appservice_job_rollback
+    - .only-develop
+  environment:
+    name: dev
+    action: stop
+  when: manual
+  needs:
+  - job: build:docker
+    artifacts: true
+  - job: dev:pre-deploy
+    artifacts: true
+  - job: dev:deploy
+    artifacts: false 
+
+
+
+
+
 

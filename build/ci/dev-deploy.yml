@@ -8,7 +8,7 @@ dev:deploy:
   image: $AZ_CONTAINER_IMAGE
   script:
     - ASP_LOGIN_PASSWORD=$(echo $ASP_LOGIN_PASSWORD | base64 -d)
-    - az login --service-principal -u $ASP_LOGIN_USER -p $ASP_LOGIN_PASSWORD --tenant $DOMAIN
+    - az login --service-principal -u $ASP_LOGIN_USER -p $ASP_LOGIN_PASSWORD --tenant $ASP_LOGIN_DOMAIN
     - az webapp config container set 
       --name $AZ_APP_SERVICE_NAME 
       --resource-group $AZ_APP_SERVICE_RG 

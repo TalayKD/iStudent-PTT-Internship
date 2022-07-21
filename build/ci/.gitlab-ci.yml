@@ -27,6 +27,7 @@ variables:
 
   AZ_APP_SERVICE_NAME: "poc-python-template"
   AZ_APP_SERVICE_RG: "Re-Platform-POC01-RG"
+  AZ_RESOURCE_GROUP_DEV: "Re-Platform-POC01-RG"
   
   PROJECT_IMAGE_NAME: "$ACR_LOGIN_SERVER/$PROJECT_NAME"
   PROJECT_IMAGE_VERSION: "$CI_PIPELINE_IID"
@@ -43,7 +44,7 @@ variables:
 
   AZ_CONTAINER_IMAGE: devopsbc/git-azcli:1
 
-  DOMAIN: c03b7ea5-365c-4a0f-b767-955babc64911
+  ASP_LOGIN_DOMAIN: c03b7ea5-365c-4a0f-b767-955babc64911
 
 
 # Rules for only develop and except master/main
@@ -61,7 +62,7 @@ variables:
 include:
   - /build/ci/unittest.yml
   - /build/ci/build-docker-global.yml
-  - /build/ci/dev-deploy.yml
+  - /build/ci/dev-deploy-global.yml
 
 
 
