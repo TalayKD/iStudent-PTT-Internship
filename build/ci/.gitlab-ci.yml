@@ -34,18 +34,17 @@ variables:
 
   PROJECT_VERSION: "0.01"
 
+  ACR_NAME: replatformpoc
   ACR_USERNAME: RePlatformPOC
   ACR_PASSWORD: /w0KyIYW=KJEzeWGHwcl21zsxWofPUYG
 
   ASP_LOGIN_USER: a51ee474-acca-4f39-bf90-d5f2de5b2f40
   ASP_LOGIN_PASSWORD: UVBvN1F+NmNIbFNtMkE4MVU4VWNWNVBzU2ZuQU0uZ35IQ05KUQ==
-
-  ACR_NAME: replatformpoc
+  ASP_LOGIN_DOMAIN: c03b7ea5-365c-4a0f-b767-955babc64911
 
   AZ_CONTAINER_IMAGE: devopsbc/git-azcli:1
 
-  ASP_LOGIN_DOMAIN: c03b7ea5-365c-4a0f-b767-955babc64911
-
+  
 
 # Rules for only develop and except master/main
 .only-develop:
