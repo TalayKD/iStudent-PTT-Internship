@@ -63,7 +63,7 @@ include:
   - /build/ci/unittest.yml
   - /build/ci/build-docker-global.yml
   - /build/ci/dev-deploy-global.yml
-  - /build/ci/extends/deploy-global.yml
+  - /build/ci/extends/.deploy-global.yml
 
 
 
