@@ -67,8 +67,7 @@ include:
   - /build/ci/build-docker-global.yml
   - /build/ci/dev-deploy-global.yml
   - /build/ci/extends/.deploy-global.yml
-  - /build/ci/dev-robot-global.yml
-  - /build/ci/extends/.test-smoke.yml
+  - /build/ci/dev-robot.yml
 
 
 

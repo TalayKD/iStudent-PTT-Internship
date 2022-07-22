@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.7 on darwin)" generated="20220722 17:39:55.090" rpa="false" schemaversion="3">
+<suite id="s1" name="Ui-Test" source="/Users/talaykondhorn/Desktop/istudent/build/ci/tests/robots/ui-test.robot">
+<test id="s1-t1" name="Get_Login_Request" line="16">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>Login_Page</arg>
+<arg>${Base_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20220722 17:39:55.237" level="INFO">Creating Session using : alias=Login_Page, url=https://poc-python-template-dev.azurewebsites.net, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20220722 17:39:55.237" endtime="20220722 17:39:55.237"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>Login_Page</arg>
+<arg>/loginpage</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20220722 17:39:56.124" level="INFO">GET Request : url=https://poc-python-template-dev.azurewebsites.net/loginpage 
+ path_url=/loginpage 
+ headers={'User-Agent': 'python-requests/2.28.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220722 17:39:56.124" level="INFO">GET Response : url=https://poc-python-template-dev.azurewebsites.net/loginpage 
+ status=200, reason=OK 
+ headers={'Content-Length': '3328', 'Content-Type': 'text/html; charset=utf-8', 'Date': 'Fri, 22 Jul 2022 10:39:55 GMT', 'Server': 'Werkzeug/2.1.2 Python/3.10.5', 'Set-Cookie': 'session=377b3d22-3b02-4f06-a81e-35444d01b3d5; HttpOnly; Path=/'} 
+ body=&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;iStudent | Log in&lt;/title&gt;
+
+  &lt;!-- Google Font: Source Sans Pro --&gt;
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"&gt;
+  &lt;!-- Font Awesome --&gt;
+  &lt;link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css"&gt;
+  &lt;!-- icheck bootstrap --&gt;
+  &lt;link rel="stylesheet" href="/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css"&gt;
+  &lt;!-- Theme style --&gt;
+  &lt;link rel="stylesheet" href="/static/dist/css/adminlte.min.css"&gt;
+&lt;/head&gt;
+&lt;body class="hold-transition login-page"&gt;
+&lt;div class="login-box"&gt;
+  &lt;div class="login-logo"&gt;
+    &lt;a href="/loginpage"&gt;i&lt;b&gt;Student v4&lt;/b&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- /.login-logo --&gt;
+  &lt;div class="card"&gt;
+    &lt;div class="card-body login-card-body"&gt;
+      &lt;p class="login-box-msg"&gt;Sign in to start your session&lt;/p&gt;
+
+      &lt;form action="/login" method="post"&gt;
+        &lt;div class="input-group mb-3"&gt;
+          &lt;input type="email" class="form-control" name="email" placeholder="Email" required&gt;
+          &lt;div class="input-group-append"&gt;
+            &lt;div class="input-group-text"&gt;
+              &lt;span class="fas fa-envelope"&gt;&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="input-group mb-3"&gt;
+          &lt;input type="password" class="form-control" name="password" placeholder="Password" required&gt;
+          &lt;div class="input-group-append"&gt;
+            &lt;div class="input-group-text"&gt;
+              &lt;span class="fas fa-lock"&gt;&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="row"&gt;
+          &lt;div class="col-8"&gt;
+          &lt;/div&gt;
+          &lt;!-- /.col --&gt;
+          &lt;div class="col-4"&gt;
+            &lt;button type="submit" class="btn btn-primary btn-block"&gt;Sign In&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;!-- /.col --&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+
+      &lt;div class="social-auth-links text-center mb-3"&gt;
+        &lt;p&gt;- OR -&lt;/p&gt;
+        &lt;a href="/logingoogle" class="btn btn-block btn-danger"&gt;
+          &lt;i class="fab fa-google mr-2"&gt;&lt;/i&gt; Sign in using Google
+        &lt;/a&gt;
+        &lt;a href="https://login.microsoftonline.com/381c23e7-37f0-412f-9372-a26ddda2b784/oauth2/v2.0/authorize?client_id=17a73d29-860a-42d1-a07c-6db374d66334&amp;amp;response_type=code&amp;amp;redirect_uri=https%3A%2F%2Fpoc-python-template-dev.azurewebsites.net%2FgetAToken&amp;amp;scope=User.ReadBasic.All+offline_access+openid+profile&amp;amp;state=LQjsOyXriStJhTmC&amp;amp;code_challenge=56oNOdVkpd5ggPqW3JFoXjPV7t9XtGFb42_bgYlLHNI&amp;amp;code_challenge_method=S256&amp;amp;nonce=aea644f0a59e33d66ea4d7119b2a0e45b8cac1f256b886262c96f3cf6042e3b8&amp;amp;client_info=1" class="btn btn-block btn-primary"&gt;
+          &lt;i class="fab fa-microsoft mr-2"&gt;&lt;/i&gt; Sign in using Azure AD
+        &lt;/a&gt;
+      &lt;/div&gt;
+      &lt;!-- /.social-auth-links --&gt;
+
+      &lt;p class="mb-0"&gt;
+        &lt;a href="/register" class="text-center"&gt;Register a new membership&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;!-- /.login-card-body --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- /.login-box --&gt;
+
+&lt;!-- jQuery --&gt;
+&lt;script src="/static/plugins/jquery/jquery.min.js"&gt;&lt;/script&gt;
+&lt;!-- Bootstrap 4 --&gt;
+&lt;script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;!-- AdminLTE App --&gt;
+&lt;script src="/static/dist/js/adminlte.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt; 
+ </msg>
+<msg timestamp="20220722 17:39:56.125" level="INFO">/Users/talaykondhorn/Desktop/istudent/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1043: InsecureRequestWarning: Unverified HTTPS request is being made to host 'poc-python-template-dev.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg timestamp="20220722 17:39:56.125" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220722 17:39:55.237" endtime="20220722 17:39:56.125"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response.text}</arg>
+<arg>Sign in to start your session</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20220722 17:39:56.125" endtime="20220722 17:39:56.127"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response.text}</arg>
+<arg>Sign in using Google</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20220722 17:39:56.128" endtime="20220722 17:39:56.129"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response.text}</arg>
+<arg>Sign in using Azure AD</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20220722 17:39:56.129" endtime="20220722 17:39:56.130"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response.text}</arg>
+<arg>Register a new membership</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20220722 17:39:56.130" endtime="20220722 17:39:56.132"/>
+</kw>
+<status status="PASS" starttime="20220722 17:39:55.236" endtime="20220722 17:39:56.133"/>
+</test>
+<test id="s1-t2" name="Wrong_Username_Login_Failed" line="24">
+<kw name="Create Webdriver" library="SeleniumLibrary">
+<arg>Chrome</arg>
+<arg>executable_path=${EXECDIR}/chromedriver</arg>
+<doc>Creates an instance of Selenium WebDriver.</doc>
+<msg timestamp="20220722 17:39:56.135" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<status status="PASS" starttime="20220722 17:39:56.135" endtime="20220722 17:40:01.242"/>
+</kw>
+<kw name="Go To" library="SeleniumLibrary">
+<arg>${Login_URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<msg timestamp="20220722 17:40:01.242" level="INFO">Opening url 'https://poc-python-template-dev.azurewebsites.net/loginpage'</msg>
+<status status="PASS" starttime="20220722 17:40:01.242" endtime="20220722 17:40:02.648"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=email</arg>
+<arg>wrongusername@gmail.com</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:02.649" level="INFO">Typing text 'wrongusername@gmail.com' into text field 'name=email'.</msg>
+<status status="PASS" starttime="20220722 17:40:02.648" endtime="20220722 17:40:03.017"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=password</arg>
+<arg>helloworld</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:03.018" level="INFO">Typing text 'helloworld' into text field 'name=password'.</msg>
+<status status="PASS" starttime="20220722 17:40:03.017" endtime="20220722 17:40:03.120"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Sign In</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:03.120" level="INFO">Clicking button 'Sign In'.</msg>
+<status status="PASS" starttime="20220722 17:40:03.120" endtime="20220722 17:40:04.808"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>Login Failed</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:04.809" endtime="20220722 17:40:04.823"/>
+</kw>
+<status status="PASS" starttime="20220722 17:39:56.134" endtime="20220722 17:40:04.823"/>
+</test>
+<test id="s1-t3" name="Wrong_Email_Login_Failed" line="32">
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=email</arg>
+<arg>talaykd@gmail.com</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:04.824" level="INFO">Typing text 'talaykd@gmail.com' into text field 'name=email'.</msg>
+<status status="PASS" starttime="20220722 17:40:04.824" endtime="20220722 17:40:04.895"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=password</arg>
+<arg>wrongpassword</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:04.896" level="INFO">Typing text 'wrongpassword' into text field 'name=password'.</msg>
+<status status="PASS" starttime="20220722 17:40:04.895" endtime="20220722 17:40:04.972"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Sign In</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:04.973" level="INFO">Clicking button 'Sign In'.</msg>
+<status status="PASS" starttime="20220722 17:40:04.973" endtime="20220722 17:40:05.807"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>Login Failed</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:05.807" endtime="20220722 17:40:05.814"/>
+</kw>
+<status status="PASS" starttime="20220722 17:40:04.824" endtime="20220722 17:40:05.815"/>
+</test>
+<test id="s1-t4" name="Login_Success" line="38">
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=email</arg>
+<arg>talaykd@gmail.com</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:05.816" level="INFO">Typing text 'talaykd@gmail.com' into text field 'name=email'.</msg>
+<status status="PASS" starttime="20220722 17:40:05.816" endtime="20220722 17:40:05.890"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=password</arg>
+<arg>helloworld</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:05.891" level="INFO">Typing text 'helloworld' into text field 'name=password'.</msg>
+<status status="PASS" starttime="20220722 17:40:05.891" endtime="20220722 17:40:05.942"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Sign In</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:05.943" level="INFO">Clicking button 'Sign In'.</msg>
+<status status="PASS" starttime="20220722 17:40:05.942" endtime="20220722 17:40:08.307"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>Student Records Table</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:08.307" endtime="20220722 17:40:08.318"/>
+</kw>
+<status status="PASS" starttime="20220722 17:40:05.815" endtime="20220722 17:40:08.319"/>
+</test>
+<test id="s1-t5" name="Insert_Record" line="44">
+<kw name="Handle Alert" library="SeleniumLibrary">
+<doc>Handles the current alert and returns its message.</doc>
+<msg timestamp="20220722 17:40:08.319" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
+<status status="PASS" starttime="20220722 17:40:08.319" endtime="20220722 17:40:09.345"/>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Insert New Record</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:09.346" level="INFO">Clicking link 'Insert New Record'.</msg>
+<status status="PASS" starttime="20220722 17:40:09.346" endtime="20220722 17:40:10.923"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=name</arg>
+<arg>RobotFramework</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:10.924" level="INFO">Typing text 'RobotFramework' into text field 'name=name'.</msg>
+<status status="PASS" starttime="20220722 17:40:10.923" endtime="20220722 17:40:11.040"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=nationality</arg>
+<arg>Selenium</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:11.041" level="INFO">Typing text 'Selenium' into text field 'name=nationality'.</msg>
+<status status="PASS" starttime="20220722 17:40:11.040" endtime="20220722 17:40:11.089"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=age</arg>
+<arg>18</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:11.090" level="INFO">Typing text '18' into text field 'name=age'.</msg>
+<status status="PASS" starttime="20220722 17:40:11.089" endtime="20220722 17:40:11.143"/>
+</kw>
+<kw name="Select From List By Label" library="SeleniumLibrary">
+<arg>name=gender</arg>
+<arg>Male</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20220722 17:40:11.143" level="INFO">Selecting options from selection list 'name=gender' by label Male.</msg>
+<status status="PASS" starttime="20220722 17:40:11.143" endtime="20220722 17:40:11.212"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=grade</arg>
+<arg>93</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:11.213" level="INFO">Typing text '93' into text field 'name=grade'.</msg>
+<status status="PASS" starttime="20220722 17:40:11.212" endtime="20220722 17:40:11.398"/>
+</kw>
+<kw name="Select From List By Label" library="SeleniumLibrary">
+<arg>name=education_id</arg>
+<arg>Masters</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20220722 17:40:11.399" level="INFO">Selecting options from selection list 'name=education_id' by label Masters.</msg>
+<status status="PASS" starttime="20220722 17:40:11.399" endtime="20220722 17:40:11.522"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Submit</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:11.523" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20220722 17:40:11.522" endtime="20220722 17:40:14.657"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>RobotFramework</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:14.657" endtime="20220722 17:40:14.669"/>
+</kw>
+<status status="PASS" starttime="20220722 17:40:08.319" endtime="20220722 17:40:14.669"/>
+</test>
+<test id="s1-t6" name="Update_Record" line="56">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Edit Record</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:14.670" level="INFO">Clicking link 'Edit Record'.</msg>
+<status status="PASS" starttime="20220722 17:40:14.670" endtime="20220722 17:40:16.722"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=name</arg>
+<arg>iRobot</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:16.723" level="INFO">Typing text 'iRobot' into text field 'name=name'.</msg>
+<status status="PASS" starttime="20220722 17:40:16.723" endtime="20220722 17:40:16.807"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=age</arg>
+<arg>29</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:16.808" level="INFO">Typing text '29' into text field 'name=age'.</msg>
+<status status="PASS" starttime="20220722 17:40:16.808" endtime="20220722 17:40:16.901"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Submit</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:16.901" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20220722 17:40:16.901" endtime="20220722 17:40:19.771"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>iRobot</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:19.771" endtime="20220722 17:40:19.785"/>
+</kw>
+<status status="PASS" starttime="20220722 17:40:14.670" endtime="20220722 17:40:19.785"/>
+</test>
+<test id="s1-t7" name="Clear_and_Logout" line="63">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Delete Record</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:19.786" level="INFO">Clicking link 'Delete Record'.</msg>
+<status status="PASS" starttime="20220722 17:40:19.786" endtime="20220722 17:40:22.067"/>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Logout</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20220722 17:40:22.068" level="INFO">Clicking link 'Logout'.</msg>
+<status status="PASS" starttime="20220722 17:40:22.068" endtime="20220722 17:40:22.385"/>
+</kw>
+<kw name="Wait Until Page Contains" library="SeleniumLibrary">
+<arg>Sign in to start your session</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" starttime="20220722 17:40:22.385" endtime="20220722 17:40:22.394"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220722 17:40:22.395" endtime="20220722 17:40:22.464"/>
+</kw>
+<status status="PASS" starttime="20220722 17:40:19.786" endtime="20220722 17:40:22.464"/>
+</test>
+<kw name="Delete All Sessions" library="RequestsLibrary" type="TEARDOWN">
+<doc>Removes all the session objects</doc>
+<msg timestamp="20220722 17:40:22.465" level="INFO">Deleting All Sessions</msg>
+<status status="PASS" starttime="20220722 17:40:22.465" endtime="20220722 17:40:22.465"/>
+</kw>
+<status status="PASS" starttime="20220722 17:39:55.091" endtime="20220722 17:40:22.465"/>
+</suite>
+<statistics>
+<total>
+<stat pass="7" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="7" fail="0" skip="0" id="s1" name="Ui-Test">Ui-Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

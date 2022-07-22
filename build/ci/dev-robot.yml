@@ -1,0 +1,20 @@
+# security & smoke test stage
+dev:test-smoke:
+  stage: dev-test-smoke
+  artifacts:
+    name: dev-smoke-result
+    paths:
+      - ${PWD}/tests/robots/reports
+    when: always
+  environment:
+    name: dev
+  image: python:latest
+  script:
+    - python --version  # For debugging
+    - pip3 install robotframework
+    - pip3 install robotframework-extendedrequestslibrary
+    - pip3 install robotframework-requests
+    - pip3 install robotframework-seleniumlibrary
+    - pwd
+    - cd build/ci/tests/robots
+    - robot ui-test.robot  
