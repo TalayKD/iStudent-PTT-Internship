@@ -15,7 +15,7 @@ dev:test-smoke:
     - pip3 install robotframework-extendedrequestslibrary
     - pip3 install robotframework-requests
     - pip3 install robotframework-seleniumlibrary
-    - apt-get install -y libglib2.0 libnss3 libgconf-2-4 libfontconfig1
+    - apt-get install -y chromium-browser
     - pwd
     - cd build/ci/tests/robots
     - robot ui-test.robot  
