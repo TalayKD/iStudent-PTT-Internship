@@ -11,11 +11,27 @@ dev:test-smoke:
   image: python:latest
   script:
     - python --version  # For debugging
+    # installing dependencies
     - pip3 install robotframework
     - pip3 install robotframework-extendedrequestslibrary
     - pip3 install robotframework-requests
     - pip3 install robotframework-seleniumlibrary
-    - apt-get install -y chromium-browser
+    # install chrome and chromedriver
+    - apt-get update
+    - apt-get install -y xvfb
+    - apt-get install -y zip
+    - apt-get install -y wget
+    - apt-get install -y ca-certificates
+    - apt-get install -y libnss3-dev libasound2 libxss1 libappindicator3-1 libindicator7 gconf-service libgconf-2-4 libpango1.0-0 xdg-utils fonts-liberation libgbm1
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+    - dpkg -i google-chrome*.deb 
+    - rm google-chrome*.deb
+    - wget -N http://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip
+    - chmod +x chromedriver
+    - cp chromedriver $(pwd)/build/ci/tests/robots
+    - rm chromedriver_linux64.zip
+    - rm chromedriver
     - pwd
     - cd build/ci/tests/robots
     - robot ui-test.robot  
