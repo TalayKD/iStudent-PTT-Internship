@@ -1,0 +1,6 @@
+robotframework==5.0.1
+robotframework-extendedrequestslibrary==0.5.5
+robotframework-pythonlibcore==3.0.0
+robotframework-requests==0.9.3
+robotframework-seleniumlibrary==6.0.0
+selenium==4.3.0
